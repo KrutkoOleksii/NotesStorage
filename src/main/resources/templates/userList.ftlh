@@ -1,4 +1,4 @@
-<#import "parts/common.ftlh" as p>
+<#import "parts/Common.ftlh" as p>
 <@p.page>
 <div class="col-sm-7 mx-auto">
 <table class="table table-striped">

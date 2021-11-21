@@ -1,4 +1,4 @@
-<#import "parts/common.ftlh" as p>
+<#import "parts/Common.ftlh" as p>
 <#import "parts/message.ftlh" as a>
 <@p.page>
 <#if note??>

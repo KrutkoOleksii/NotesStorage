@@ -1,4 +1,4 @@
-<#import "parts/common.ftlh" as p>
+<#import "parts/Common.ftlh" as p>
 <@p.page>
 Edit user
 <div class="form-row">

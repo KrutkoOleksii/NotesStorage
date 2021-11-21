@@ -33,12 +33,10 @@ public class Note implements BaseEntity<UUID> {
     private UUID id;
 
     @NotNull
-    //@Pattern(regexp = "regular")
     @Size(min = 5, max = 100, message = "should be more than 5 and not more than 100")
     private String name;
 
     @NotNull
-//    @Pattern(regexp = "20 rowes,regular")
     private String message;
 
     @NotNull

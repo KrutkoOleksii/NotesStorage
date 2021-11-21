@@ -13,8 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.Map;
 
 @Controller
-//@RestController
-public class MainController {
+public class MainController<Violation> {
 
     @Autowired
     private NoteRepository noteRepository;
@@ -50,4 +49,6 @@ public class MainController {
         return "main";
     }
 
+    public void add(Violation violation) {
+    }
 }
