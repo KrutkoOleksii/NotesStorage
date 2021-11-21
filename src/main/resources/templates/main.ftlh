@@ -1,4 +1,4 @@
-<#import "parts/common.ftlh" as p>
+<#import "parts/Common.ftlh" as p>
 <@p.page>
 <div class="form-row">
     <div class="form-group col-md-6">

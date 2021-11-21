@@ -9,11 +9,9 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.*;
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Collection;
@@ -41,18 +39,15 @@ public class User implements BaseEntity<UUID>, UserDetails {
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
-    //@Valid
-    @NotBlank(message = "Username cannot be empty")
-    //@Column()
-    //@UniqueElements
-    @Size(
-            min = 5,
-            max = 50,
-            message = "The author email '${validatedValue}' must be between {min} and {max} characters long")
+    @NotNull
+    @Column()
+    @UniqueElements
+    @Size(min = 5, max = 50, message = "should be more than 5 and not more than 50")
     private String username;
 
-    @NotBlank(message = "Password cannot be empty")
-    @Size(min = 8, max = 100, message = "Password should have length from 8 to 100 characters")
+    @Valid
+    @NotNull
+    @Size(min = 8, max = 100, message = "should be more than 8 and not more than 100")
     private String password;
 
     private boolean active;
