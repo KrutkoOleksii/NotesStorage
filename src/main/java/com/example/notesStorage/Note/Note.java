@@ -7,10 +7,7 @@ import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.util.UUID;
 
 @Data
@@ -36,12 +33,12 @@ public class Note implements BaseEntity<UUID> {
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
-    @NotNull
-    @Pattern(regexp = "[a-zA-Z0-9]+")
-    @Size(min = 5, max = 100, message = "Note name must be between {min} and {max} characters long and contains only numbers and english letters")
+    @NotBlank(message = "Username cannot be empty")
+    //@Pattern(regexp = "[a-zA-Z0-9]+")
+    @Size(min = 5, max = 100, message = "The login must be between {min} and {max} characters long")
     private String name;
 
-    @NotNull
+    @NotBlank(message = "Username cannot be empty")
     @Size(min = 5, max = 10_000, message = "The note's text must be between {min} and {max} characters long")
     private String message;
 

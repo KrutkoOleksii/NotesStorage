@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindException;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -84,10 +85,8 @@ public class NoteController {
 
     @PostMapping("create")
     public String addNote(@AuthenticationPrincipal User user,
-                          @ModelAttribute("editNote") Note editNote,
+                          @Valid @ModelAttribute("editNote") Note editNote,
                           @RequestParam(required = false) String noteId,
-                          //@RequestParam(required = false) String name,
-                          //@RequestParam(required = false) String message,
                           @RequestParam(required = false) String accessType,
                           Map<String, Object> model){
         if (!noteId.isBlank()) {
@@ -99,7 +98,7 @@ public class NoteController {
         return "redirect:/note/list";
     }
 
-    @ExceptionHandler(ConstraintViolationException.class)
+    @ExceptionHandler({ConstraintViolationException.class})
     ModelAndView onConstraintValidationException(ConstraintViolationException e, Model model) {
         List<String> error = new ArrayList<>();
         Set<ConstraintViolation<?>> violations = e.getConstraintViolations();
