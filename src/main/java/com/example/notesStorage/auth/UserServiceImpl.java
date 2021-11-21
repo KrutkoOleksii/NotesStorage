@@ -21,15 +21,15 @@ public abstract class UserServiceImpl implements UserService{
     @Autowired
     private final UserRepository userRepository;
 
-    //    @Autowired
-//    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+//        @Autowired
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     protected UserServiceImpl(EntityManager em, UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
         System.out.println("UserServiceImpl loadUserByUsername");
 
         this.em = em;
         this.userRepository = userRepository;
-//        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     @Override

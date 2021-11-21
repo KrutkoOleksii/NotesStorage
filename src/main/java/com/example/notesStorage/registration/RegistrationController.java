@@ -3,9 +3,6 @@ package com.example.notesStorage.registration;
 import com.example.notesStorage.auth.User;
 import com.example.notesStorage.auth.UserService;
 import com.example.notesStorage.enums.Role;
-//import com.example.notesStorage.validator.ValidateUtils;
-//import com.example.notesStorage.validator.ValidationErrorResponse;
-//import com.example.notesStorage.validator.Violation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -66,5 +63,4 @@ public class RegistrationController {
         model.addAttribute("message",error);
         return new ModelAndView("/register");
     }
-
 }
