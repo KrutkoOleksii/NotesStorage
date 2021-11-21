@@ -5,6 +5,9 @@
 <@m.error />
 </#if>
 <div class="col-sm-7 mx-auto">
+    <#if message??>
+        <@m.errorlist />
+    </#if>
 <table class="table table-striped">
     <thead class="table-primary">
     <th scope="col">Name</th>

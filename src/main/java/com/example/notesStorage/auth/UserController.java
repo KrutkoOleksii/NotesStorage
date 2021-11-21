@@ -6,13 +6,13 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 import java.net.URI;
 import java.net.http.HttpRequest;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -66,5 +66,14 @@ public class UserController {
         model.addAttribute("roles", Role.values());
         return "userEdit";
     }
-
+    @ExceptionHandler(ConstraintViolationException.class)
+    ModelAndView onConstraintValidationException(ConstraintViolationException e, Model model) {
+        List<String> error = new ArrayList<>();
+        Set<ConstraintViolation<?>> violations = e.getConstraintViolations();
+        for (ConstraintViolation<?> violation : violations){
+            error.add(violation.getMessage());
+        }
+        model.addAttribute("message",error);
+        return new ModelAndView("error");
+    }
 }

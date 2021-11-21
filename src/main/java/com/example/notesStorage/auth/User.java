@@ -15,15 +15,17 @@ import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
+@Data
 @Getter
 @Setter
-@ToString(exclude = "notes")
+@EqualsAndHashCode(exclude = "notes")
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -43,12 +45,11 @@ public class User implements BaseEntity<UUID>, UserDetails {
 
     //@Valid
     @NotBlank(message = "Username cannot be empty")
-    //@Column()
-    //@UniqueElements
+    @Pattern(regexp = "[a-zA-Z0-9]+")
     @Size(
             min = 5,
             max = 50,
-            message = "The login must be between {min} and {max} characters long")
+            message = "Login must be between {min} and {max} characters long and contains only numbers and english letters")
     private String username;
 
     @NotBlank(message = "Password cannot be empty")

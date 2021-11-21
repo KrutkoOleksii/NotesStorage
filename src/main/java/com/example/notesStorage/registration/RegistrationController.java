@@ -36,12 +36,6 @@ public class RegistrationController {
 
     @PostMapping("/register")
     public String addUser(@Valid User user, BindingResult bindingResult, Model model){
-        if (bindingResult.hasErrors()){
-//            Map<String,String> errors = ValidateUtils.getErrors(bindingResult);
-//            model.mergeAttributes(errors);
-//            model.addAttribute("message", errors);
-            return "register";
-        }
         if (userService.findByUsername(user.getUsername()).isPresent()){
             model.addAttribute("message", "User exists!");
             return "register";

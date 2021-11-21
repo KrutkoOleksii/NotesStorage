@@ -20,7 +20,6 @@ public abstract class NoteServiceImpl implements NoteService, UserDetailsService
     @Autowired
     private final NoteRepository noteRepository;
 
-    //    @Autowired
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     protected NoteServiceImpl(EntityManager em, NoteRepository noteRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
