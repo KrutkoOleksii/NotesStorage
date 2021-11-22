@@ -7,7 +7,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import org.aopalliance.intercept.MethodInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -41,25 +40,21 @@ public class NoteController {
             @ApiResponse(code = 200, message = "Success|OK"),
             @ApiResponse(code = 401, message = "not authorized!"),
             @ApiResponse(code = 403, message = "forbidden!!!"),
-            @ApiResponse(code = 404, message = "not found!!!")})
+            @ApiResponse(code = 404, message = "not found!!!") })
 //    @GetMapping("list")
     @RequestMapping(value = "list")
-    public String getNotes(@ApiIgnore @AuthenticationPrincipal User user, @ApiIgnore String filter, @ApiIgnore Map<String, Object> model) {
-        List<Note> notes = new ArrayList<>();
+    public String getNotes(@ApiIgnore @AuthenticationPrincipal User user, @ApiIgnore String filter, @ApiIgnore Map<String, Object> model){
+        List<Note> notes;
         if (filter != null || !filter.isEmpty()) {
             user = userService.getById(user.getId());
-//            notes = noteService.getListNotes(user.getId());
-//            Note note = noteService.findById(user.getId()).get();
-            notes.add(noteService.findById(user.getId()).get());
+            notes = noteService.getListNotes(user.getId());
+        } else {
+            notes = noteService.getListNotes(user.getId());
         }
-//            notes = noteService.getListNotes(user.getId());
-//            Iterable<Note> listNotes = noteService.getListNotes(user.getId());
-        notes.add(noteService.findById(user.getId()).get());
-
-//        int noteCount = notes.size();
+        int noteCount= notes.size();
         model.put("notes", notes);
         model.put("filter", filter);
-        model.put("noteCount",  notes.size());
+        model.put("noteCount", noteCount);
         //model.put("message", "TEST MESSAGE!"); //for view testing
         return "noteList";
     }
@@ -67,7 +62,7 @@ public class NoteController {
     @ApiOperation(value = "Create New Note ", response = Note.class, tags = "noteCreate")
 //    @GetMapping("create")
     @RequestMapping(value = "create")
-    public String noteCreate(@ApiIgnore Map<String, Object> model) {
+    public String noteCreate( @ApiIgnore Map<String, Object> model){
         return "noteCreate";
     }
 
@@ -75,26 +70,26 @@ public class NoteController {
 //    @GetMapping("edit/{id}")
     @RequestMapping(value = "edit/{id}")
     @ResponseBody
-    public String noteEdit(@PathVariable UUID id, @ApiIgnore Map<String, Object> model) {
-//        Optional<Note> note = noteService.findById(id);
-//        if (noteService.findById(id).isPresent()) {
-            model.put("editNote", noteService.findById(id).isPresent());
-//        }
+    public String noteEdit(@PathVariable String id,@ApiIgnore  Map<String, Object> model){
+        Note note = noteService.getById(UUID.fromString(id));
+        if (note != null){
+            model.put("editNote", note);
+        }
         return "noteEdit";
     }
 
     @ApiOperation(value = "Delete Note By ID ", response = String.class, tags = "noteDelete")
 //    @GetMapping("delete/{id}")
     @RequestMapping(value = "delete/{id}")
-    public String noteDelete(@PathVariable UUID id, @ApiIgnore Map<String, Object> model) {
-        noteService.deleteById(id);
+    public String noteDelete(@PathVariable String id, @ApiIgnore Map<String, Object> model){
+        noteService.deleteById(UUID.fromString(id));
         return "redirect:/note/list";
     }
 
     @ApiOperation(value = "WRONG! ERROR! 404,302,101,500", response = String.class, tags = "noteError")
 //    @GetMapping("error")
     @RequestMapping(value = "error")
-    public String noteError(Map<String, Object> model) {
+    public String noteError(Map<String, Object> model){
         model.put("message", "TEST MESSAGE!"); //for view testing
         return "noteError";
     }
@@ -102,11 +97,11 @@ public class NoteController {
     @ApiOperation(value = "Get Note By ID ", response = Note.class, tags = "noteShow")
 //    @GetMapping("share/{id}")
     @RequestMapping(value = "share/{id}")
-    public String noteShow(@ApiIgnore @AuthenticationPrincipal @RequestParam(required = false, value = "user") User user, @PathVariable(value = "id", name = "id") UUID id, @ApiIgnore Map<String, Object> model) {
-        Optional<Note> note = noteService.findById(id);
-        if ((note.isPresent() && ((user != null && note.get().getAuthor().getId().equals(user.getId())) ||
-                (user == null && note.get().getAccessType().equals(AccessTypes.PUBLIC))))) {
-            model.put("note", note.get());
+    public String noteShow(@ApiIgnore @AuthenticationPrincipal @RequestParam(required = false,value = "user") User user,@PathVariable(value = "id",name = "id") String id,@ApiIgnore Map<String,Object> model){
+        Optional<Note> note = noteService.findById(UUID.fromString(id));
+        if ((!note.isEmpty() && ((user!=null && note.get().getAuthor().getId().equals(user.getId())) ||
+                (user == null && note.get().getAccessType().equals(AccessTypes.PUBLIC))))){
+        model.put("note", note.get());
         } else {
             model.put("message", "We can't find tis note ");
         }
@@ -114,15 +109,15 @@ public class NoteController {
     }
 
     @ApiOperation(value = "Create Note Post", response = Note.class, tags = "addNote")
-    @PostMapping(value = "create", params = "noteId")
-    public String addNote(@ApiIgnore @AuthenticationPrincipal User user,
+    @PostMapping(value = "create",params = "noteId")
+    public String addNote(@ApiIgnore  @AuthenticationPrincipal User user,
                           @Valid @ModelAttribute("editNote") Note editNote,
-                          @RequestParam(required = false, value = "noteId") UUID noteId,
-                          @RequestParam(required = false, value = "accessType") AccessTypes accessType,
-                          @ApiIgnore Map<String, Object> model) {
-        if (noteId!=null) {
-            editNote.setId(noteId);
-            editNote.setAccessType(accessType);
+                          @RequestParam(required = false,value = "noteId") String noteId,
+                          @RequestParam(required = false,value = "accessType") String accessType,
+                          @ApiIgnore Map<String, Object> model){
+        if (!noteId.isBlank()) {
+            editNote.setId(UUID.fromString(noteId));
+            editNote.setAccessType(AccessTypes.valueOf(accessType.toUpperCase()));
         }
         editNote.setAuthor(user);
         noteService.save(editNote);
@@ -133,10 +128,10 @@ public class NoteController {
     ModelAndView onConstraintValidationException(ConstraintViolationException e, Model model) {
         List<String> error = new ArrayList<>();
         Set<ConstraintViolation<?>> violations = e.getConstraintViolations();
-        for (ConstraintViolation<?> violation : violations) {
+        for (ConstraintViolation<?> violation : violations){
             error.add(violation.getMessage());
         }
-        model.addAttribute("message", error);
+        model.addAttribute("message",error);
         return new ModelAndView("noteError");
     }
 }
