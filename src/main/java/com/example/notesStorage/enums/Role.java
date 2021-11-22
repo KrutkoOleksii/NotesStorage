@@ -1,6 +1,5 @@
 package com.example.notesStorage.enums;
 
-import io.swagger.annotations.ApiModel;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.annotation.security.RolesAllowed;
@@ -8,7 +7,6 @@ import javax.validation.constraints.NotNull;
 import java.util.Arrays;
 import java.util.Optional;
 
-@ApiModel
 @NotNull
 @RolesAllowed({"ROLE_ADMIN","ROLE_USER"})
 public enum Role implements GrantedAuthority {

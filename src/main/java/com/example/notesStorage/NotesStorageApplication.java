@@ -10,7 +10,7 @@ public class NotesStorageApplication extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
         SpringApplication.run(NotesStorageApplication.class, args);
-        System.out.println("super_secret_password");
+
     }
 
     @Override
