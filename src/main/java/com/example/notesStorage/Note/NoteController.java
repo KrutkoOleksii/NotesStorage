@@ -85,7 +85,7 @@ public class NoteController {
 
     @PostMapping("create")
     public String addNote(@AuthenticationPrincipal User user,
-                          @Valid @ModelAttribute("editNote") Note editNote,
+                          @ModelAttribute("editNote") Note editNote,
                           @RequestParam(required = false) String noteId,
                           @RequestParam(required = false) String accessType,
                           Map<String, Object> model){
@@ -98,7 +98,7 @@ public class NoteController {
         return "redirect:/note/list";
     }
 
-    @ExceptionHandler({ConstraintViolationException.class})
+    @ExceptionHandler({ConstraintViolationException.class, BindException.class})
     ModelAndView onConstraintValidationException(ConstraintViolationException e, Model model) {
         List<String> error = new ArrayList<>();
         Set<ConstraintViolation<?>> violations = e.getConstraintViolations();

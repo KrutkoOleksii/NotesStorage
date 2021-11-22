@@ -44,12 +44,12 @@ public class User implements BaseEntity<UUID>, UserDetails {
     private UUID id;
 
     //@Valid
-    @NotBlank(message = "Username cannot be empty")
-    @Pattern(regexp = "[a-zA-Z0-9]+")
+    @NotBlank(message = "Login cannot be empty")
+    //@Pattern(regexp = "[a-zA-Z0-9]+")
     @Size(
             min = 5,
             max = 50,
-            message = "Login must be between {min} and {max} characters long and contains only numbers and english letters")
+            message = "The login must be between {min} and {max} characters long")
     private String username;
 
     @NotBlank(message = "Password cannot be empty")

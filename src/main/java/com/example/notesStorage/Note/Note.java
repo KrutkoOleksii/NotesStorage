@@ -33,13 +33,13 @@ public class Note implements BaseEntity<UUID> {
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
-    @NotBlank(message = "Username cannot be empty")
+    @NotBlank(message = "Note name cannot be empty")
     //@Pattern(regexp = "[a-zA-Z0-9]+")
-    @Size(min = 5, max = 100, message = "The login must be between {min} and {max} characters long")
+    @Size(min = 5, max = 100, message = "Nte name must be between {min} and {max} characters long and contains only numbers and english letters")
     private String name;
 
-    @NotBlank(message = "Username cannot be empty")
-    @Size(min = 5, max = 10_000, message = "The note's text must be between {min} and {max} characters long")
+    @NotBlank(message = "Note text cannot be empty")
+    @Size(min = 5, max = 10_000, message = "The note text must be between {min} and {max} characters long")
     private String message;
 
     @NotNull
