@@ -1,5 +1,6 @@
 package com.example.notesStorage.Note;
 
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -10,6 +11,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
+@Api
 @Service
 @RequiredArgsConstructor
 public abstract class NoteServiceImpl implements NoteService, UserDetailsService {

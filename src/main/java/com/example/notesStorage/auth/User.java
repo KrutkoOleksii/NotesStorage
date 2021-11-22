@@ -3,6 +3,7 @@ package com.example.notesStorage.auth;
 import com.example.notesStorage.BaseEntity;
 import com.example.notesStorage.Note.Note;
 import com.example.notesStorage.enums.Role;
+import io.swagger.annotations.ApiModel;
 import lombok.*;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.GenericGenerator;
@@ -29,6 +30,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@ApiModel
 @Table(name = "users")
 public class User implements BaseEntity<UUID>, UserDetails {
 

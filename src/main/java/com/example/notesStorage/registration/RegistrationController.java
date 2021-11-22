@@ -1,8 +1,13 @@
 package com.example.notesStorage.registration;
 
+import antlr.Token;
 import com.example.notesStorage.auth.User;
 import com.example.notesStorage.auth.UserService;
 import com.example.notesStorage.enums.Role;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -19,6 +24,7 @@ import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 import java.util.*;
 
+@Api
 @Validated
 @Controller
 public class RegistrationController {
@@ -29,6 +35,11 @@ public class RegistrationController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+//    @Path("register")
+    @ApiOperation(value = "Registration")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = Token.class)
+    })
     @GetMapping("/register")
     public String registration(Model model){
         return "register";

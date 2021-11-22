@@ -1,9 +1,12 @@
 package com.example.notesStorage.enums;
 
+import io.swagger.annotations.ApiModel;
+
 import javax.validation.constraints.NotNull;
 import java.util.Arrays;
 import java.util.Optional;
 
+@ApiModel
 @NotNull
 public enum AccessTypes {
 
