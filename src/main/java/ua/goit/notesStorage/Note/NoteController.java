@@ -84,7 +84,7 @@ public class NoteController {
 
     @PostMapping("create")
     public String addNote(@AuthenticationPrincipal User user,
-                          @Valid @ModelAttribute("editNote") Note editNote,
+                          @ModelAttribute("editNote") Note editNote,
                           @RequestParam(required = false) String noteId,
                           @RequestParam(required = false) String accessType,
                           Map<String, Object> model){

@@ -41,7 +41,6 @@ public class Note implements BaseEntity<UUID> {
     @Size(min = 5, max = 10_000, message = "The note's text must be between {min} and {max} characters long")
     private String message;
 
-    @NotNull
     @Enumerated(EnumType.STRING)
     private AccessTypes accessType;
 
