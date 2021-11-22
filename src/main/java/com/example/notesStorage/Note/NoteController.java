@@ -104,8 +104,10 @@ public class NoteController {
     @RequestMapping(value = "share/{id}")
     public String noteShow(@ApiIgnore @AuthenticationPrincipal @RequestParam(required = false, value = "user") User user, @PathVariable(value = "id", name = "id") UUID id, @ApiIgnore Map<String, Object> model) {
         Optional<Note> note = noteService.findById(id);
-        if ((note.isPresent() && ((user != null && note.get().getAuthor().getId().equals(user.getId())) ||
-                (user == null && note.get().getAccessType().equals(AccessTypes.PUBLIC))))) {
+        if (!(note.isEmpty() ||
+                !(user != null && note.get().getAuthor().getId().equals(user.getId())
+                        ||
+                        (user == null && note.get().getAccessType().equals(AccessTypes.PUBLIC))))) {
             model.put("note", note.get());
         } else {
             model.put("message", "We can't find tis note ");
@@ -130,7 +132,7 @@ public class NoteController {
     }
 
     @ExceptionHandler({ConstraintViolationException.class})
-    ModelAndView onConstraintValidationException(ConstraintViolationException e, Model model) {
+    public ModelAndView onConstraintValidationException(ConstraintViolationException e, Model model) {
         List<String> error = new ArrayList<>();
         Set<ConstraintViolation<?>> violations = e.getConstraintViolations();
         for (ConstraintViolation<?> violation : violations) {

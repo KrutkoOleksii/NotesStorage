@@ -13,21 +13,21 @@ import java.util.List;
 
 @Api
 @Service
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 public abstract class NoteServiceImpl implements NoteService, UserDetailsService {
 
-    @PersistenceContext
-    private EntityManager em;
+//    @PersistenceContext
+//    private EntityManager em;
 
     @Autowired
     private final NoteRepository noteRepository;
 
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+//    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    protected NoteServiceImpl(EntityManager em, NoteRepository noteRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
-        this.em = em;
+    protected NoteServiceImpl(NoteRepository noteRepository) {
+//        this.em = em;
         this.noteRepository = noteRepository;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+//        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
 
@@ -42,7 +42,7 @@ public abstract class NoteServiceImpl implements NoteService, UserDetailsService
     }
 
     @Override
-    public List<Note> findByName(String name) {
+    public Iterable<Note> findByName(String name) {
         return noteRepository.findByName(name);
     }
 

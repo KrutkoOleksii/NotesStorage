@@ -6,17 +6,19 @@ import com.example.notesStorage.enums.AccessTypes;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
+import org.hibernate.Hibernate;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.util.Objects;
 import java.util.UUID;
 
-@Data
 @Getter
 @Setter
 @ToString(exclude = "author")
-@EqualsAndHashCode(exclude = "author")
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -29,10 +31,7 @@ public class Note implements BaseEntity<UUID> {
 
     @Id
     @GeneratedValue(generator = "UUID")
-    @GenericGenerator(
-            name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator"
-    )
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     @ApiModelProperty(notes = "UUID id",name="id",required=true,value="unique name")
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
@@ -70,8 +69,15 @@ public class Note implements BaseEntity<UUID> {
     private User author;
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Note note = (Note) o;
+        return id != null && Objects.equals(id, note.id);
+    }
+
+    @Override
     public int hashCode() {
         return getClass().hashCode();
     }
-
 }

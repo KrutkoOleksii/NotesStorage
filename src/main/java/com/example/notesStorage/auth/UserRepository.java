@@ -3,7 +3,6 @@ package com.example.notesStorage.auth;
 import com.example.notesStorage.EntityRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-
 import java.util.Optional;
 import java.util.UUID;
 

@@ -15,6 +15,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 //   http://localhost:9999/swagger-ui/index.html#/
 @Configuration
@@ -84,19 +85,17 @@ public class SwaggerConfiguration {
                         new TokenRequestEndpoint("https://app-storagenote.herokuapp.com(AUTH_SERVER)" + "/authorize", "CLIENT_ID", "CLIENT_SECRET"))
                 .build();
 
-        SecurityScheme oauth = new OAuthBuilder().name("spring_oauth")
-                .grantTypes(Arrays.asList(grantType))
+        return new OAuthBuilder().name("spring_oauth")
+                .grantTypes(List.of(grantType))
                 .scopes(Arrays.asList(scopes()))
                 .build();
-        return oauth;
     }
 
     private AuthorizationScope[] scopes() {
-        AuthorizationScope[] scopes = {
+        return new AuthorizationScope[]{
                 new AuthorizationScope("read", "for read operations"),
                 new AuthorizationScope("write", "for write operations"),
                 new AuthorizationScope("foo", "Access foo API") };
-        return scopes;
     }
 
     private SecurityContext securityContext() {
